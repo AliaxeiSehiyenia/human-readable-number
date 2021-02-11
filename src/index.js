@@ -37,6 +37,6 @@ module.exports = function toReadable (number) {
             else if (str_ten == '' && str_unit == '') {
                 return string = str_unit_hundred + ' ' + hundred;
             } */
-            return string = str_unit_hundred + ' ' + hundred + ' ' + str_ten + ' ' + str_unit;
+            return string = str_unit_hundred + ' ' + 'hundred' + ' ' + str_ten + ' ' + str_unit;
         }
 }
