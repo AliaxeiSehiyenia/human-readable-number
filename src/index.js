@@ -11,5 +11,5 @@ module.exports = function toReadable (number) {
             string = "zero";
         }
       
-        console.log(string);
+        return string;
 }
