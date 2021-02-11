@@ -1,88 +1,111 @@
-module.exports = function toReadable (number) {
-    var arr_numbers = new Array();
-        arr_numbers[1] = new Array('', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать');
-        arr_numbers[2] = new Array('', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто');
-        arr_numbers[3] = new Array('', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот');
-        function number_parser(num, _desc) {
-            var string = '';
-            var num_hundred = '';
-            if (num.length == 3) {
-                num_hundred = num.substr(0, 1);
-                num = num.substr(1, 3);
-                string = arr_numbers[3][num_hundred] + ' ';
-            }
-            if (num < 20) string += arr_numbers[1][parseFloat(num)] + ' ';
-            else {
-                var first_num = num.substr(0, 1);
-                var second_num = num.substr(1, 2);
-                string += arr_numbers[2][first_num] + ' ' + arr_numbers[1][second_num] + ' ';
-            }
-            switch (_desc) {
-            case 0:
-                var last_num = parseFloat(num.substr(-1));
-                if (last_num == 1) string += 'рубль';
-                else if (last_num > 1 && last_num < 5) string += 'рубля';
-                else string += 'рублей';
-            break;
-            case 1:
-                var last_num = parseFloat(num.substr(-1));
-                if (last_num == 1) string += 'тысяча ';
-                else if (last_num > 1 && last_num < 5) string += 'тысячи ';
-                else string += 'тысяч ';
-                string = string.replace('один ', 'одна ');
-                string = string.replace('два ', 'две ');
-            break;
-            case 2:
-                var last_num = parseFloat(num.substr(-1));
-                if (last_num == 1) string += 'миллион ';
-                else if (last_num > 1 && last_num < 5) string += 'миллиона ';
-                else string += 'миллионов ';
-            break;
-            case 3:
-                var last_num = parseFloat(num.substr(-1));
-                if (last_num == 1) string += 'миллиард ';
-                else if (last_num > 1 && last_num < 5) string += 'миллиарда ';
-                else string += 'миллиардов ';
-            break;
-            }
-            string = string.replace('  ', ' ');
-            return string;
+module.exports = function toReadable (_number) {
+    var _arr_numbers = new Array();
+        _arr_numbers[1] = new Array('', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать');
+        _arr_numbers[2] = new Array('', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто');
+        _arr_numbers[3] = new Array('', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот');
+        function number_parser(_num, _desc) {
+                var _string = '';
+                var _num_hundred = '';
+                if (_num.length == 3) {
+                        _num_hundred = _num.substr(0, 1);
+                        _num = _num.substr(1, 3);
+                        _string = _arr_numbers[3][_num_hundred] + ' ';
+                }
+                if (_num < 20) _string += _arr_numbers[1][parseFloat(_num)] + ' ';
+                else {
+                        var _first_num = _num.substr(0, 1);
+                        var _second_num = _num.substr(1, 2);
+                        _string += _arr_numbers[2][_first_num] + ' ' + _arr_numbers[1][_second_num] + ' ';
+                }              
+                switch (_desc){
+                        case 0:
+                                var last = _num.length - 1;
+                                var _last_num = parseFloat(_num.charAt(last));
+                                var _slice_num = _num.slice(0, -1);
+                                var _pre_last_num = parseFloat(_slice_num);
+                                if (_last_num == 1 && 1 != _pre_last_num) _string += 'рубль';
+                                else if (_last_num > 1 && _last_num < 5 && 1 != _pre_last_num)  _string += 'рубля';
+                                else if ("" !=  _slice_num) _string += 'рублей';
+                                else if (1 == _pre_last_num) _string += 'рублей';
+                                else if ("" !=  _slice_num && _last_num  > 4) _string += 'рублей';
+                                else if ("" ==  _slice_num && _last_num  > 4) _string += 'рублей';
+                                else if ("" == _slice_num && 0 == _last_num) _string += 'Ноль рублей';
+                                else _string += 'рубль';
+                                break;
+                        case 1:
+                                var _last_num = parseFloat(_num.substr(-1));
+                                var last = _num.length - 1;
+                                var _last_num = parseFloat(_num.charAt(last));
+                                var _slice_num = _num.slice(0, -1);
+                                var _pre_last_num = parseFloat(_slice_num);
+                                if (_last_num == 1 && 1 != _pre_last_num) _string += 'тысяча ';
+                                else if (_last_num == 1 && 1 == _pre_last_num.toString().length) _string += 'тысяча ';
+                                else if (_last_num > 1 && _last_num < 5 && 1 != _pre_last_num) _string += 'тысячи ';
+                                else _string += 'тысяч ';
+                                _string = _string.replace('один ', 'одна ');
+                                _string = _string.replace('два ', 'две ');
+                                break;
+                        case 2:
+                                var _last_num = parseFloat(_num.substr(-1));
+                                var last = _num.length - 1;
+                                var _last_num = parseFloat(_num.charAt(last));
+                                var _slice_num = _num.slice(0, -1);
+                                var _pre_last_num = parseFloat(_slice_num);
+                                if (_last_num == 1 && 1 != _pre_last_num) _string += 'миллион ';
+                                else if (_last_num == 1 && 1 == _pre_last_num.toString().length) _string += 'миллион ';
+                                else if (_last_num > 1 && _last_num < 5 && 1 != _pre_last_num) _string += 'миллиона ';
+                                else _string += 'миллионов ';
+                                break;
+                        case 3:
+                                var _last_num = parseFloat(_num.substr(-1));
+                                var last = _num.length - 1;
+                                var _last_num = parseFloat(_num.charAt(last));
+                                var _slice_num = _num.slice(0, -1);
+                                var _pre_last_num = parseFloat(_slice_num);
+                                if (_last_num == 1 && 1 != _pre_last_num) _string += 'миллиард ';
+                                else if (_last_num == 1 && 1 == _pre_last_num.toString().length) _string += 'миллиард ';
+                                else if (_last_num > 1 && _last_num < 5 && 1 != _pre_last_num) _string += 'миллиарда ';
+                                else _string += 'миллиардов ';
+                                break;
+                }
+                _string = _string.replace('  ', ' ');
+                return _string;
         }
-        
-        function decimals_parser(num) {
-            var first_num = num.substr(0, 1);
-            var second_num = parseFloat(num.substr(1, 2));
-            var string = ' ' + first_num + second_num;
-            if (second_num == 1) string += ' копейка';
-            else if (second_num > 1 && second_num < 5) string += ' копейки';
-            else string += ' копеек';
-            return string;
+        function decimals_parser(_num) {
+                var _first_num = _num.substr(0, 1);
+                var _second_num = parseFloat(_num.substr(1, 2));
+                var _string = ' ' + _first_num + _second_num;
+                if (_second_num == 1 && 1 != _first_num) _string += ' копейка';
+                else if (_second_num > 1 && _second_num < 5 && 1 != _first_num) _string += ' копейки';
+                else _string += ' копеек';
+                return _string;
         }
-        if (!number || number == 0) return false;
-        if (typeof number !== 'number') {
-            number = number.replace(',', '.');
-            number = parseFloat(number);
-            if (isNaN(number)) return false;
+        if (!_number || _number == 0) return 'Ноль рублей';
+        if (typeof _number !== 'number') {
+                _number = _number.replace(',', '.');
+                _number = parseFloat(_number);
+                if (isNaN(_number)) return 'Ноль рублей';
         }
-        number = number.toFixed(2);
-        if(number.indexOf('.') != -1) {
-            var number_arr = number.split('.');
-            var number = number_arr[0];
-            var number_decimals = number_arr[1];
+        _number = _number.toFixed(2);
+        if(_number.indexOf('.') != -1) {
+                var _number_arr = _number.split('.');
+                var _number = _number_arr[0];
+                var _number_decimals = _number_arr[1];
         }
-        var number_length = number.length;
-        var string = '';
-        var num_parser = '';
-        var count = 0;
-        for (var _p = (number_length - 1); _p >= 0; _p--) {
-            var num_digit = _number.substr(_p, 1);
-            num_parser = num_digit +  num_parser;
-            if ((num_parser.length == 3 || _p == 0) && !isNaN(parseFloat(num_parser))) {
-                string = number_parser(num_parser, count) + string;
-                num_parser = '';
-                count++;
-            }
+        var _number_length = _number.length;
+        var _string = '';
+        var _num_parser = '';
+        var _count = 0;
+        for (var _p = (_number_length - 1); _p >= 0; _p--) {
+                var _num_digit = _number.substr(_p, 1);
+                _num_parser = _num_digit +  _num_parser;
+                if ((_num_parser.length == 3 || _p == 0) && !isNaN(parseFloat(_num_parser))) {
+                        _string = number_parser(_num_parser, _count) + _string;
+                        _num_parser = '';
+                        _count++;
+                }
         }
-        if (number_decimals) string += decimals_parser(number_decimals);
-        return string;
+        if (_number_decimals) _string += decimals_parser(_number_decimals);
+        _string=_string.charAt(0).toUpperCase() + _string.substr(1).toLowerCase();
+        return _string;
 }
