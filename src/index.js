@@ -11,7 +11,7 @@ module.exports = function toReadable (number) {
             string = "zero";
         }
         else if (number >= 1 && number <= 19) {
-            string = arr_numbers[number];
+            string = arr_numbers[1][number];
         }
       
         return string;
