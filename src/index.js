@@ -17,6 +17,9 @@ module.exports = function toReadable (number) {
             var array_number = number.toString();
             var str_ten = arr_tens[array_number.charAt(0)];
             var str_unit = arr_units[array_number.charAt(1)];
-            return string = str_ten + ' ' + str_unit;
+            if (str_unit == '') {
+                return string = str_ten;
+            }
+            else return string = str_ten + ' ' + str_unit;
         }
 }
