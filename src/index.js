@@ -28,14 +28,17 @@ module.exports = function toReadable (number) {
 
             var str_ten = arr_tens[array_number.charAt(1)];
             var str_unit = arr_units[array_number.charAt(2)];
-            if (str_unit == '') {
+            /* if (str_unit == '') {
                 return string = str_unit_hundred + ' ' + 'hundred' + ' ' + str_ten;
-            }
+            } */
             /* else if (str_ten == '') {
                 return string = str_unit_hundred + ' ' + 'hundred' + ' ' + str_unit;
             }
             else if (str_ten == '' && str_unit == '') {
                 return string = str_unit_hundred + ' ' + 'hundred';
             } */
+            var string = str_unit_hundred + ' ' + 'hundred' + ' ' + str_ten + ' ' + str_unit;
+            string = string.replace(/ +/g, ' ').trim();
+            return string;
         }
 }
